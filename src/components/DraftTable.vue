@@ -1,5 +1,6 @@
 <template>
   <main class="draft-container">
+    <img class="draft-img" src="../assets/nba-draft.png">
     <table class="table table-bordered">
     <thead>
       <tr>
@@ -11,7 +12,7 @@
     </thead>
     <tbody>
       <tr v-for="rows in tableRow">
-          <td>{{rows[1]}}</td>
+          <td><router-link to="/profile">{{rows[1]}}</router-link></td>
           <td>{{rows[4]}}</td>
           <td>{{rows[7]}}, {{rows[8]}}</td>
           <td>{{rows[10]}}</td>
@@ -56,6 +57,9 @@ td {
   .draft-container {
     width: 90%;
     margin: 2rem auto;
+  }
+  .draft-img {
+    width: 50%;
   }
 } 
 </style>

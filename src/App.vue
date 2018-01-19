@@ -1,17 +1,15 @@
 <template>
   <div id="app">
-    <img class="draft-img" src="./assets/nba-draft.png">
-    <DraftTable/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import DraftTable from './components/DraftTable'
 
 export default {
   name: 'App',
   components: {
-    DraftTable
+  
   }
 }
 </script>
@@ -25,10 +23,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.table {
+  margin-top: 2rem;
+}
 @media only screen and (max-width: 640px) {
-  .draft-img {
-    width: 50%;
-  }
   td {
     font-size: 12px;
   }
