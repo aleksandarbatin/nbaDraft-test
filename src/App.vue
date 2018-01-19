@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/nba-draft.png">
+    <img class="draft-img" src="./assets/nba-draft.png">
     <DraftTable/>
   </div>
 </template>
@@ -24,5 +24,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+@media only screen and (max-width: 640px) {
+  .draft-img {
+    width: 50%;
+  }
+  td {
+    font-size: 12px;
+  }
 }
 </style>

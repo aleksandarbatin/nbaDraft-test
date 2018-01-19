@@ -3,34 +3,18 @@
     <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
+        <th>Firstname and Lastname</th>
         <th>Pick</th>
-        <th>Affiliation</th>
-        <th>College/Club</th>
+        <th>Affiliation (City, Club)</th>
+        <th>College/University</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>1</td>
-        <td>john@example.com</td>
-        <td>john@example.com</td>
-      </tr>
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>2</td>
-        <td>john@example.com</td>
-        <td>john@example.com</td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>3</td>
-        <td>john@example.com</td>
-        <td>john@example.com</td>
+      <tr v-for="rows in tableRow">
+          <td>{{rows[1]}}</td>
+          <td>{{rows[4]}}</td>
+          <td>{{rows[7]}}, {{rows[8]}}</td>
+          <td>{{rows[10]}}</td>
       </tr>
     </tbody>
   </table>
@@ -42,16 +26,14 @@ import axios from 'axios';
 export default {
   data () {
     return {
-      results: ''
+      tableRow: ''
     }
   },
   created() {
-    var config = {
-        headers: {'Access-Control-Allow-Origin': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
-    };
-    axios.get('http://stats.nba.com/stats/drafthistory?LeagueID=00',config)
+    axios.get('http://stats.nba.com/stats/drafthistory?LeagueID=00')
     .then(response => {
-         this.results = response.data
+         this.tableRow = response.data.resultSets[0].rowSet.slice(0,20)
+         console.log(this.tableRow)
     })
     .catch(error => {
       console.log(error);
@@ -65,6 +47,15 @@ export default {
 <style scoped>
 .draft-container {
   width: 70%;
-  margin: 2rem auto;
+  margin: 2rem auto 10rem;
 }
+td {
+  text-align: left;
+}
+@media only screen and (max-width: 640px) {
+  .draft-container {
+    width: 90%;
+    margin: 2rem auto;
+  }
+} 
 </style>
