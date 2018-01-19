@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr v-for="rows in tableRow">
-          <td><router-link to="/profile">{{rows[1]}}</router-link></td>
+          <td><router-link :to ="{name:'Profile',params:{playerId:rows[0]}}">{{rows[1]}}</router-link></td>
           <td>{{rows[4]}}</td>
           <td>{{rows[7]}}, {{rows[8]}}</td>
           <td>{{rows[10]}}</td>

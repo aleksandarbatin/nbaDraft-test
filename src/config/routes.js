@@ -11,11 +11,15 @@ const router = new VueRouter({
 	routes: [
 		{
 			path: "/",
-			component: DraftTable
+			name: "Home",
+			component: DraftTable,
+			props: true
 		},
 		{
 			path: "/profile",
-			component: Profile
+			name: "Profile",
+			component: Profile,
+			props: true
 		}
 	],
 	linkActiveClass: 'active'

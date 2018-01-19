@@ -23,6 +23,7 @@
     </tbody>
   </table>
   <router-link to="/">back</router-link>
+   {{$route.params.playerId}}
   </main>
 </template>
 

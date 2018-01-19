@@ -27,7 +27,7 @@ export default {
   margin-top: 2rem;
 }
 @media only screen and (max-width: 640px) {
-  td {
+  td,th {
     font-size: 12px;
   }
 }
