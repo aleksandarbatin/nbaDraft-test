@@ -34,7 +34,7 @@ export default {
     axios.get('http://stats.nba.com/stats/drafthistory?LeagueID=00')
     .then(response => {
          this.tableRow = response.data.resultSets[0].rowSet.slice(0,20)
-         console.log(this.tableRow)
+         //console.log(this.tableRow)
     })
     .catch(error => {
       console.log(error);

@@ -2,28 +2,42 @@
   <main class="profile-container">
     <img class="profile-img" src="../assets/nbastar-profile.jpg">
     <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>First and Last name</th>
-        <th>Birthday</th>
-        <th>Birthplace country</th>
-        <th>Height</th>
-        <th>Weight</th>
-        <th>NBA club</th>
-        <th>Position</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- <tr v-for="rows in tableRow">
-          <td>{{rows[1]}}</td>
-          <td>{{rows[4]}}</td>
-          <td>{{rows[7]}}, {{rows[8]}}</td>
-          <td>{{rows[10]}}</td>
-      </tr> -->
-    </tbody>
+     <tbody>
+        <tr>
+          <th>First Name</th>
+            <td>{{playerData[1]}}</td>
+        </tr>
+        <tr>
+          <th>Last Name</th>
+            <td>{{playerData[2]}}</td>
+        </tr>
+        <tr>
+          <th>Date of Birth</th>
+            <td>{{birthDay}}</td>
+        </tr>
+        <tr>
+          <th>Birthplace country</th>
+            <td>{{playerData[9]}}</td>
+        </tr>
+        <tr>
+          <th>Height</th>
+            <td>{{playerData[10]}}</td>
+        </tr>
+        <tr>
+          <th>Weight</th>
+             <td>{{playerData[11]}} lbs</td>
+        </tr>
+        <tr>
+          <th>NBA club</th>
+            <td>{{playerData[20]}}, {{playerData[19]}}</td>
+        </tr>
+        <tr>
+          <th>Position</th>
+            <td>{{playerData[14]}}</td>
+        </tr>
+      </tbody>
   </table>
   <router-link to="/">back</router-link>
-   {{$route.params.playerId}}
   </main>
 </template>
 
@@ -32,14 +46,22 @@ import axios from 'axios';
 export default {
   data () {
     return {
-      tableRow: ''
+      playerData: '',
+      birthDay: ''
     }
   },
   created() {
-    axios.get('http://stats.nba.com/stats/drafthistory?LeagueID=00')
+    var id = this.$route.params.playerId; 
+    axios.get('http://stats.nba.com/stats/commonplayerinfo?LeagueID=00&PlayerID=' + id)
     .then(response => {
-         this.tableRow = response.data.resultSets[0].rowSet.slice(0,20)
-         console.log(this.tableRow)
+        this.playerData = response.data.resultSets[0].rowSet[0];
+         //format date of birth
+         var dateOfBirth = new Date(this.playerData[6].slice(0,10));
+         var m = dateOfBirth.getMonth();
+         var d = dateOfBirth.getDay();
+         var y = dateOfBirth.getYear();
+         var formatDate = m + "/" + d + "/" + y; 
+         this.birthDay = formatDate;
     })
     .catch(error => {
       console.log(error);
@@ -52,7 +74,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .profile-container {
-  width: 70%;
+  width: 50%;
   margin: 2rem auto 10rem;
 }
 .profile-img {
@@ -61,6 +83,12 @@ export default {
 
 td {
   text-align: left;
+}
+a {
+  padding: 8px 30px;
+  text-transform: uppercase;
+  background-color: DarkCyan; 
+  color: white;
 }
 @media only screen and (max-width: 640px) {
   .profile-container {
