@@ -1,6 +1,6 @@
 # NBA draft - test
 
-Task was to make a table and display data of latest NBA draft and I used vue.js.
+Task was to make a table and display data of latest NBA draft. I used vue.js.
 
 ## Getting Started
 
