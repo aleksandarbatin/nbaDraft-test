@@ -16,7 +16,7 @@ const router = new VueRouter({
 			props: true
 		},
 		{
-			path: "/profile",
+			path: "/profile/:playerId",
 			name: "Profile",
 			component: Profile,
 			props: true
