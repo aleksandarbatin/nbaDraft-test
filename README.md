@@ -1,21 +1,30 @@
-# nba-draft
+# NBA draft - test
 
-> A Vue.js project
+Task was to make a table and display data of latest NBA draft and I used vue.js.
 
-## Build Setup
+## Getting Started
 
-``` bash
-# install dependencies
-npm install
+To try how it works you need to have NODE.js and of course GIT installed on your machine and simply do 
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
+git clone https://github.com/aleksandarbatin/nbaDraft-test.git
+cd nbaDraft-test
+npm install
+```
+For project developing I used vue-cli, all files for work on it are in /src folder  
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Running the project
+
+As a part of VUE workflow I used some basic: 
+
+#vue-router - for routing.
+
+#axios - for making HTTP request
+
+To run and test project in google chrome you need chrome extension -Allow-Control-Allow-Origin: *-  a mechanism that allows JavaScript on a web page to make XMLHttpRequests to another domain and command 
+
+```
+npm run dev
+```
+Enjoy it!
+

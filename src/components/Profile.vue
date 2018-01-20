@@ -74,11 +74,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .profile-container {
-  width: 50%;
+  width: 30%;
   margin: 2rem auto 10rem;
 }
 .profile-img {
-  width: 20%;
+  width: 40%;
 }
 
 td {
@@ -90,9 +90,9 @@ a {
   background-color: DarkCyan; 
   color: white;
 }
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 990px) {
   .profile-container {
-    width: 90%;
+    width: 80%;
     margin: 2rem auto;
   }
 } 
