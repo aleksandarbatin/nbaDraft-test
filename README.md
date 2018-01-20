@@ -11,7 +11,7 @@ git clone https://github.com/aleksandarbatin/nbaDraft-test.git
 cd nbaDraft-test
 npm install
 ```
-For project developing I used vue-cli, all files for work on it are in /src folder  
+For project developing I used vue-cli, all files to work on it are in /src folder  
 
 ## Running the project
 
