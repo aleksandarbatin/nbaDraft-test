@@ -29,3 +29,4 @@ npm run dev
 Enjoy it!
 
 ![nbadraft-home](https://user-images.githubusercontent.com/17181108/35618576-af7fffb0-067b-11e8-8050-a49e5897b9e9.jpg)
+![nbadraft-profile](https://user-images.githubusercontent.com/17181108/35618671-e9c60a02-067b-11e8-9ffc-79f4ac51bc58.jpg)
