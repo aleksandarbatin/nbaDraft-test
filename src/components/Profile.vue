@@ -55,6 +55,7 @@ export default {
     axios.get('http://stats.nba.com/stats/commonplayerinfo?LeagueID=00&PlayerID=' + id)
     .then(response => {
         this.playerData = response.data.resultSets[0].rowSet[0];
+        console.log(response.data)
          //format date of birth
          var dateOfBirth = new Date(this.playerData[6].slice(0,10));
          var m = dateOfBirth.getMonth();

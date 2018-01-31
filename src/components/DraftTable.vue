@@ -1,6 +1,10 @@
 <template>
   <main class="draft-container">
     <img class="draft-img" src="../assets/nba-draft.png">
+    <select>
+      <option selected="nba teams">nba teams</option>
+      <option v-for="club in clubs">{{club}}</option>
+    </select>
     <table class="table table-bordered">
     <thead>
       <tr>
@@ -11,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="rows in tableRow">
+      <tr v-for="rows in paginate">
           <td><router-link :to ="{name:'Profile',params:{playerId:rows[0]}}">{{rows[1]}}</router-link></td>
           <td>{{rows[4]}}</td>
           <td>{{rows[7]}}, {{rows[8]}}</td>
@@ -19,6 +23,11 @@
       </tr>
     </tbody>
   </table>
+  <ul class="pagination">
+    <li v-for="pageNumber in totalPages" v-if="Math.abs(pageNumber - currentPage) < 3 || pageNumber == totalPages || pageNumber == 1">
+    <a v-bind:key="pageNumber" href="#" @click="setPage(pageNumber)" :class="{current: currentPage === pageNumber, last: (pageNumber == totalPages && Math.abs(pageNumber - currentPage) > 3), first:(pageNumber == 1 && Math.abs(pageNumber - currentPage) > 3)}">{{ pageNumber }}</a>
+    </li>
+</ul>
   </main>
 </template>
 
@@ -27,19 +36,46 @@ import axios from 'axios';
 export default {
   data () {
     return {
-      tableRow: ''
+      tableRow: '',
+      searchKey: '',
+      currentPage: 1,
+      itemsPerPage: 20,
+      resultCount: 0,
+      clubs: ["Boston Celtics", "Brooklyn Nets", "New York Knicks", "Philadelphia 76ers", "Toronto Raptors", "Golden State Warriors", "LA Clippers", "Los Angeles Lakers", "Phoenix Suns", "Sacramento Kings", "Chicago Bulls", "Cleveland Cavaliers", "Detroit Pistons", "Indiana Pacers", "Milwaukee Bucks", "Dallas Mavericks", "Houston Rockets", "Memphis Grizzlies", "New Orleans Pelicans", "San Antonio Spurs", "Atlanta Hawks", "Charlotte Hornets", "Miami Heat", "Orlando Magic", "Washington Wizards", "Denver Nuggets", "Minnesota Timberwolves", "Oklahoma City Thunder", "Portland Trail Blazers", "Utah Jazz"]
     }
   },
   created() {
     axios.get('http://stats.nba.com/stats/drafthistory?LeagueID=00')
     .then(response => {
-         this.tableRow = response.data.resultSets[0].rowSet.slice(0,20)
-         //console.log(this.tableRow)
+         this.tableRow = response.data.resultSets[0].rowSet
+         console.log(response.data);
+         console.log(this.tableRow);
     })
     .catch(error => {
       console.log(error);
     })
-  }
+  },
+  computed: {
+        totalPages: function() {
+          return Math.ceil(this.resultCount / this.itemsPerPage)
+        },
+        paginate: function() {
+            if (!this.tableRow || this.tableRow.length != this.tableRow.length) {
+                return
+            }
+            this.resultCount = this.tableRow.length
+            if (this.currentPage >= this.totalPages) {
+              this.currentPage = this.totalPages
+            }
+            var index = this.currentPage * this.itemsPerPage - this.itemsPerPage
+            return this.tableRow.slice(index, index + this.itemsPerPage)
+        }
+    },
+    methods: {
+        setPage: function(pageNumber) {
+          this.currentPage = pageNumber
+        }
+    }
 } 
 
 </script>
@@ -47,11 +83,21 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .draft-container {
-  width: 70%;
+  width: 620px;
   margin: 2rem auto 10rem;
 }
 td {
   text-align: left;
+}
+.pagination li{
+  display: inline-block;
+  list-style: none;
+}
+a.first::after {
+    content: '...';
+}
+a.last::before {
+    content: '...';
 }
 @media only screen and (max-width: 640px) {
   .draft-container {
