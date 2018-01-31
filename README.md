@@ -28,4 +28,4 @@ npm run dev
 ```
 Enjoy it!
 
-![nbadraft-home](https://user-images.githubusercontent.com/17181108/35618457-59eb79e4-067b-11e8-9365-4bff5caf0db2.jpg)
+![nbadraft-home](https://user-images.githubusercontent.com/17181108/35618576-af7fffb0-067b-11e8-8050-a49e5897b9e9.jpg)
