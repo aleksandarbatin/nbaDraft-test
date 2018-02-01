@@ -1,10 +1,7 @@
 <template>
   <main class="draft-container">
     <img class="draft-img" src="../assets/nba-draft.png">
-    <select>
-      <option selected="nba teams">nba teams</option>
-      <option v-for="club in clubs">{{club}}</option>
-    </select>
+    <v-select :options="clubs" v-model="selected" :on-change="filteredPeople"></v-select>
     <table class="table table-bordered">
     <thead>
       <tr>
@@ -27,7 +24,7 @@
     <li v-for="pageNumber in totalPages" v-if="Math.abs(pageNumber - currentPage) < 3 || pageNumber == totalPages || pageNumber == 1">
     <a v-bind:key="pageNumber" href="#" @click="setPage(pageNumber)" :class="{current: currentPage === pageNumber, last: (pageNumber == totalPages && Math.abs(pageNumber - currentPage) > 3), first:(pageNumber == 1 && Math.abs(pageNumber - currentPage) > 3)}">{{ pageNumber }}</a>
     </li>
-</ul>
+  </ul>
   </main>
 </template>
 
@@ -41,7 +38,8 @@ export default {
       currentPage: 1,
       itemsPerPage: 20,
       resultCount: 0,
-      clubs: ["Boston Celtics", "Brooklyn Nets", "New York Knicks", "Philadelphia 76ers", "Toronto Raptors", "Golden State Warriors", "LA Clippers", "Los Angeles Lakers", "Phoenix Suns", "Sacramento Kings", "Chicago Bulls", "Cleveland Cavaliers", "Detroit Pistons", "Indiana Pacers", "Milwaukee Bucks", "Dallas Mavericks", "Houston Rockets", "Memphis Grizzlies", "New Orleans Pelicans", "San Antonio Spurs", "Atlanta Hawks", "Charlotte Hornets", "Miami Heat", "Orlando Magic", "Washington Wizards", "Denver Nuggets", "Minnesota Timberwolves", "Oklahoma City Thunder", "Portland Trail Blazers", "Utah Jazz"]
+      selected: 'All',
+      clubs: ["All", "Boston, Celtics", "Brooklyn, Nets", "New York, Knicks", "Philadelphiam, 76ers", "Toronto, Raptors", "Golden State, Warriors", "LA, Clippers", "Los Angeles, Lakers", "Phoenix, Suns", "Sacramento, Kings", "Chicago, Bulls", "Cleveland, Cavaliers", "Detroit, Pistons", "Indiana, Pacers", "Milwaukee, Bucks", "Dallas, Mavericks", "Houston, Rockets", "Memphis, Grizzlies", "New Orleans, Pelicans", "San Antonio, Spurs", "Atlanta, Hawks", "Charlotte, Hornets", "Miami, Heat", "Orlando, Magic", "Washington, Wizards", "Denver, Nuggets", "Minnesota, Timberwolves", "Oklahoma ,City Thunder", "Portland, Trail Blazers", "Utah, Jazz"]
     }
   },
   created() {
@@ -56,25 +54,42 @@ export default {
     })
   },
   computed: {
-        totalPages: function() {
-          return Math.ceil(this.resultCount / this.itemsPerPage)
-        },
-        paginate: function() {
-            if (!this.tableRow || this.tableRow.length != this.tableRow.length) {
-                return
-            }
-            this.resultCount = this.tableRow.length
-            if (this.currentPage >= this.totalPages) {
-              this.currentPage = this.totalPages
-            }
-            var index = this.currentPage * this.itemsPerPage - this.itemsPerPage
-            return this.tableRow.slice(index, index + this.itemsPerPage)
-        }
+      totalPages: function() {
+        return Math.ceil(this.resultCount / this.itemsPerPage)
+      },
+      paginate: function() {
+          if (!this.tableRow || this.tableRow.length != this.tableRow.length) {
+              return
+          }
+          this.resultCount = this.tableRow.length
+          if (this.currentPage >= this.totalPages) {
+            this.currentPage = this.totalPages
+          }
+          var index = this.currentPage * this.itemsPerPage - this.itemsPerPage
+          return this.tableRow.slice(index, index + this.itemsPerPage)
+      }
     },
     methods: {
         setPage: function(pageNumber) {
           this.currentPage = pageNumber
+        },
+        filteredPeople: function(ss) {
+          console.log("aaaaa");
+        var vm = this;
+        var selectedClub = vm.selected;
+        if(selectedClub === "All") {
+          //save performance, juste return the default array:
+          // return this.paginate;
+          console.log(this.paginate);
+          console.log(ss);
+        } else {
+          return this.paginate.filter(function(player) {
+            //return the array after passimng it through the filter function:
+            return  (ss === 'All' || (player[7] + ", " + player[8]) === ss);   
+
+          });
         }
+      }
     }
 } 
 
