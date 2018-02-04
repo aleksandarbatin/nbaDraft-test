@@ -1,7 +1,8 @@
 <template>
     <main class="draft-container">
         <img class="draft-img" src="../assets/nba-draft.png">
-        <v-select :options="clubs" v-model="selected" ></v-select>
+        <h3>Slecet club</h3>
+        <v-select :options="clubs" v-model="selected" v-on:change="filteredPlayer"></v-select>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -12,7 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="rows in paginate">
+                <tr v-for="rows in paginatedData">
                     <td><router-link :to ="{name:'Profile',params:{playerId:rows[0]}}">{{rows[1]}}</router-link></td>
                     <td>{{rows[4]}}</td>
                     <td>{{rows[7]}}, {{rows[8]}}</td>
@@ -46,6 +47,7 @@ export default {
             currentPage: 1,
             itemsPerPage: 20,
             resultCount: 0,
+            displayed: '',
             selected: 'All',
             clubs: ["All", "Boston, Celtics", "Brooklyn, Nets", "New York, Knicks", "Philadelphiam, 76ers", "Toronto, Raptors", "Golden State, Warriors", "LA, Clippers", "Los Angeles, Lakers", "Phoenix, Suns", "Sacramento, Kings", "Chicago, Bulls", "Cleveland, Cavaliers", "Detroit, Pistons", "Indiana, Pacers", "Milwaukee, Bucks", "Dallas, Mavericks", "Houston, Rockets", "Memphis, Grizzlies", "New Orleans, Pelicans", "San Antonio, Spurs", "Atlanta, Hawks", "Charlotte, Hornets", "Miami, Heat", "Orlando, Magic", "Washington, Wizards", "Denver, Nuggets", "Minnesota, Timberwolves", "Oklahoma ,City Thunder", "Portland, Trail Blazers", "Utah, Jazz"]
         }
@@ -53,42 +55,46 @@ export default {
     created() {
         axios.get('http://stats.nba.com/stats/drafthistory?LeagueID=00')
         .then(response => {
+            //get NBA draft history data and push it in tableRow
              this.tableRow = response.data.resultSets[0].rowSet
-             // console.log(response.data);
-             // console.log(this.tableRow);
         })
         .catch(error => {
             console.log(error);
         })
     },
     computed: {
+        //count number of pages 
         totalPages: function() {
-            return Math.ceil(this.resultCount / this.itemsPerPage)
+            return Math.ceil(this.resultCount / this.itemsPerPage);
         },
-        paginate: function() {
-            var vm = this;
-            var selectedClub = vm.selected;
-            
-            if(selectedClub === "All") {
-            //save performance, juste return the default array:
-                return this.tableRow;
-            } else {
-                return this.tableRow.filter(function(player) {
-                    //return the array after passimng it through the filter function:
-                    return  (selectedClub === 'All' || (player[7] + ", " + player[8]) === selectedClub); 
-                });
-            }
-        //////////////////////////////////////////////////////////////////////////
-            if (!this.tableRow || this.tableRow.length != this.tableRow.length) {
+        //slice the data that need to be shown on page
+        paginatedData: function() {
+            if (!this.displayed || this.displayed.length != this.displayed.length) {
                 return
             }
-            console.log(11111)
-            this.resultCount = this.tableRow.length
+            this.resultCount = this.displayed.length
             if (this.currentPage >= this.totalPages) {
                 this.currentPage = this.totalPages
             }
             var index = this.currentPage * this.itemsPerPage - this.itemsPerPage
-            return this.tableRow.slice(index, index + this.itemsPerPage)
+            return this.displayed.slice(index, index + this.itemsPerPage)
+        },
+        filteredPlayer: function() {
+          var vm = this;
+          var selectedClub = vm.selected;
+          //important ! every time filter is applied store tableRow in displayed data
+          this.displayed = this.tableRow;
+          if(selectedClub === "All") {
+            return this.tableRow;
+          } else {
+            console.log(111);
+            var filtered =  this.displayed.filter(function(player) {
+              //return the array after passimng it through the filter function:
+              return  (selectedClub === 'All' || (player[7] + ", " + player[8]) === selectedClub);   
+
+            });
+            return this.displayed = filtered;
+          }
         }
            
     },
