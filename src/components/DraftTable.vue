@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <tr v-for="rows in paginatedData">
-                    <td><router-link :to ="{name:'Profile',params:{playerId:rows[0]}}">{{rows[1]}}</router-link></td>
+                    <td><router-link :to ="{name:'Profile',params:{playerId:rows[0]}}">{{rows[1]}}</router-link><input type="checkbox" :value="rows[1]" @click="addFav($event)"></td>
                     <td>{{rows[4]}}</td>
                     <td>{{rows[7]}}, {{rows[8]}}</td>
                     <td>{{rows[10]}}</td>
@@ -40,6 +40,7 @@
 <script>
 import axios from 'axios';
 export default {
+    props: ['11'],
     data () {
         return {
             tableRow: '',
@@ -49,7 +50,8 @@ export default {
             resultCount: 0,
             displayed: '',
             selected: 'All',
-            clubs: ["All", "Boston, Celtics", "Brooklyn, Nets", "New York, Knicks", "Philadelphiam, 76ers", "Toronto, Raptors", "Golden State, Warriors", "LA, Clippers", "Los Angeles, Lakers", "Phoenix, Suns", "Sacramento, Kings", "Chicago, Bulls", "Cleveland, Cavaliers", "Detroit, Pistons", "Indiana, Pacers", "Milwaukee, Bucks", "Dallas, Mavericks", "Houston, Rockets", "Memphis, Grizzlies", "New Orleans, Pelicans", "San Antonio, Spurs", "Atlanta, Hawks", "Charlotte, Hornets", "Miami, Heat", "Orlando, Magic", "Washington, Wizards", "Denver, Nuggets", "Minnesota, Timberwolves", "Oklahoma ,City Thunder", "Portland, Trail Blazers", "Utah, Jazz"]
+            favorites: [],
+            clubs: ["All", "Boston, Celtics", "Brooklyn, Nets", "New York, Knicks", "Philadelphia, 76ers", "Toronto, Raptors", "Golden State, Warriors", "LA, Clippers", "Los Angeles, Lakers", "Phoenix, Suns", "Sacramento, Kings", "Chicago, Bulls", "Cleveland, Cavaliers", "Detroit, Pistons", "Indiana, Pacers", "Milwaukee, Bucks", "Dallas, Mavericks", "Houston, Rockets", "Memphis, Grizzlies", "New Orleans, Pelicans", "San Antonio, Spurs", "Atlanta, Hawks", "Charlotte, Hornets", "Miami, Heat", "Orlando, Magic", "Washington, Wizards", "Denver, Nuggets", "Minnesota, Timberwolves", "Oklahoma ,City Thunder", "Portland, Trail Blazers", "Utah, Jazz"]
         }
     },
     created() {
@@ -101,6 +103,10 @@ export default {
     methods: {
         setPage: function(pageNumber) {
             this.currentPage = pageNumber
+        },
+        addFav: function(e) {
+           // props.push(e.target.value);
+            console.log(props)
         }
     }
 } 
