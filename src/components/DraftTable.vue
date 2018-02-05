@@ -2,7 +2,9 @@
     <main class="draft-container">
         <img class="draft-img" src="../assets/nba-draft.png">
         <h3>Slecet club</h3>
-        <v-select :options="clubs" v-model="selected" v-on:change="filteredPlayer"></v-select>
+        <v-select :options="clubs" v-model="selected" @change="filteredPlayer" class="selectClub"></v-select>
+        <router-link :to="{name:'Favorites', params:{favData:favorites}}" class="fav-btn" v-model="favorites" v-change="countFavs">Favorites <span >{{favorites.length}}</span></router-link> 
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -14,7 +16,7 @@
             </thead>
             <tbody>
                 <tr v-for="rows in paginatedData">
-                    <td><router-link :to ="{name:'Profile',params:{playerId:rows[0]}}">{{rows[1]}}</router-link><input type="checkbox" :value="rows[1]" @click="addFav($event)"></td>
+                    <td><router-link :to ="{name:'Profile',params:{playerId:rows[0]}}">{{rows[1]}}</router-link><input class="fav-check" type="checkbox" :value="rows[1]" @click="addFav($event)"></td>
                     <td>{{rows[4]}}</td>
                     <td>{{rows[7]}}, {{rows[8]}}</td>
                     <td>{{rows[10]}}</td>
@@ -40,7 +42,7 @@
 <script>
 import axios from 'axios';
 export default {
-    props: ['11'],
+    props: ['favList'],
     data () {
         return {
             tableRow: '',
@@ -97,6 +99,12 @@ export default {
             });
             return this.displayed = filtered;
           }
+        },
+        countFavs: function() {
+            if(this.favorites.length > 10) {
+                alert("Maximum number of favorite players reached.");
+                document.querySelectorAll(".favCheck").disabled = true;
+            }
         }
            
     },
@@ -105,8 +113,13 @@ export default {
             this.currentPage = pageNumber
         },
         addFav: function(e) {
-           // props.push(e.target.value);
-            console.log(props)
+           if(this.favorites.length > 10) {
+            return;
+           }
+           else {
+            this.favorites.push(e.target.value);
+            console.log(this.favorites);
+           }
         }
     }
 } 
@@ -126,11 +139,36 @@ td {
   display: inline-block;
   list-style: none;
 }
+.fav-btn {
+    float: left;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid DarkCyan;
+    text-transform: uppercase;
+}
+.fav-btn span {
+    color: white;
+    width: 20px;
+    display: inline-block;
+    height: 20px;
+    line-height: 1.5;
+    background-color: red;
+    border-radius: 15px;
+    font-weight: bold;
+}
+.fav-check {
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+}
 a.first::after {
     content: '...';
 }
 a.last::before {
     content: '...';
+}
+.selectClub {
+    margin-bottom: 20px;
 }
 @media only screen and (max-width: 640px) {
   .draft-container {
