@@ -86,6 +86,7 @@ export default {
             if (this.currentPage >= this.totalPages) {
                 this.currentPage = this.totalPages
             }
+            //count pages to bi sliced and displayed
             var index = this.currentPage * this.itemsPerPage - this.itemsPerPage
             return this.displayed.slice(index, index + this.itemsPerPage)
         },
@@ -106,10 +107,10 @@ export default {
             return this.displayed = filtered;
           }
         },
+        // alert window for maximum favorites
         countFavs: function() {
             if(this.favorites.length >= 10) {
                 alert("Maximum number of favorite players reached.");
-                document.querySelectorAll(".favCheck").disabled = true;
             }
         }
            
@@ -118,13 +119,13 @@ export default {
         setPage: function(pageNumber) {
             this.currentPage = pageNumber
         },
+        //add players to favorites
         addFav: function(e) {
            if(this.favorites.length >= 10) {
             return;
            }
            else {
             this.favorites.push(e.target.value);
-            console.log(this.favorites);
            }
         }
     }
