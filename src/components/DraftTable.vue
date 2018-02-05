@@ -3,7 +3,7 @@
         <img class="draft-img" src="../assets/nba-draft.png">
         <h3>Slecet club</h3>
         <v-select :options="clubs" v-model="selected" @change="filteredPlayer" class="selectClub"></v-select>
-        <router-link :to="{name:'Favorites', params:{favData:favorites}}" class="fav-btn" v-model="favorites" v-change="countFavs">Favorites <span >{{favorites.length}}</span></router-link> 
+        <router-link :to="{name:'Favorites', params:{favData:favorites}}" class="fav-btn" v-model="countFavs">Favorites <span >{{favorites.length}}</span></router-link> 
 
         <table class="table table-bordered">
             <thead>
@@ -16,7 +16,12 @@
             </thead>
             <tbody>
                 <tr v-for="rows in paginatedData">
-                    <td><router-link :to ="{name:'Profile',params:{playerId:rows[0]}}">{{rows[1]}}</router-link><input class="fav-check" type="checkbox" :value="rows[1]" @click="addFav($event)"></td>
+                    <td>
+                        <router-link 
+                            :to ="{name:'Profile', params:{playerId:rows[0]}}"
+                        >{{rows[1]}}</router-link>
+                        <input class="fav-check" type="checkbox" :value="rows[1]" @click="addFav($event)">
+                    </td>
                     <td>{{rows[4]}}</td>
                     <td>{{rows[7]}}, {{rows[8]}}</td>
                     <td>{{rows[10]}}</td>
@@ -36,6 +41,7 @@
                 </a>
             </li>
         </ul>
+        <div v-if="favorites.length > 3" class="fav-popup">Maximum number of favorite players reached.</div>
     </main>
 </template>
 
@@ -101,7 +107,7 @@ export default {
           }
         },
         countFavs: function() {
-            if(this.favorites.length > 10) {
+            if(this.favorites.length >= 10) {
                 alert("Maximum number of favorite players reached.");
                 document.querySelectorAll(".favCheck").disabled = true;
             }
@@ -113,7 +119,7 @@ export default {
             this.currentPage = pageNumber
         },
         addFav: function(e) {
-           if(this.favorites.length > 10) {
+           if(this.favorites.length >= 10) {
             return;
            }
            else {
@@ -128,6 +134,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .draft-container {
   width: 620px;
   margin: 2rem auto 10rem;
@@ -160,6 +167,11 @@ td {
     width: 15px;
     height: 15px;
     margin-left: 10px;
+}
+.fav-popup {
+    position: absolute;
+    width: 200px;
+    height: ;
 }
 a.first::after {
     content: '...';
